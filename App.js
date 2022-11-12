@@ -29,10 +29,6 @@ function HomeStack() {
           name="Home"
           component={HomeScreen}
           options={{ title: 'Home Page' }}/>
-        {/* <Stack.Screen
-          name="Details"
-          component={DetailsScreen}
-          options={{ title: 'Details Page' }} /> */}
       </Stack.Navigator>
   );
 }
