@@ -1,0 +1,2 @@
+export const PRODUCT_LIST = 'PRODUCT_LIST';
+export const PRODUCT_LIST_DATA = 'PRODUCT_LIST_DATA';
