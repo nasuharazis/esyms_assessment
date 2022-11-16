@@ -17,38 +17,6 @@ import { action_getProductList } from '../actions';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 let width = Dimensions.get('window').width;
 let cdnURL = 'https://cdn.esyms.com/'
-
-const list = [
-    {
-        id: 1,
-        uri: "https://cdn.esyms.com/product/product_20210602133925-f74cd306-4c23-48d6-8bec-fb78cdde23e4.png"
-    },
-    {
-        id: 1,
-        uri: "https://cdn.esyms.com/product/product_20191122050638ae710a19-3754-4663-9ec2-e1ac38f2506b.gif"
-    },
-    {
-        id: 1,
-        uri: "https://cdn.esyms.com/product/product_20201015092400e6204958-5d87-4dfc-ba11-57b30ea936bb.png"
-    },
-    {
-        id: 1,
-        uri: "https://cdn.esyms.com/product/product_20201015092400e6204958-5d87-4dfc-ba11-57b30ea936bb.png"
-    },
-    {
-        id: 1,
-        uri: "https://cdn.esyms.com/product/product_20201015092400e6204958-5d87-4dfc-ba11-57b30ea936bb.png"
-    },
-    {
-        id: 1,
-        uri: "https://cdn.esyms.com/product/product_20201015092400e6204958-5d87-4dfc-ba11-57b30ea936bb.png"
-    },
-    {
-        id: 1,
-        uri: "https://cdn.esyms.com/product/product_20201015092400e6204958-5d87-4dfc-ba11-57b30ea936bb.png"
-    },
-]
- 
 class HomeScreen extends React.Component {
 
     constructor(props){
@@ -75,7 +43,7 @@ class HomeScreen extends React.Component {
         } = props;
 
         if(listProduct && listProduct.message == 'success'){
-            this.setState({list: this.state.list.concat(listProduct.results.docs)}, () => console.log(this.state.list))
+            this.setState({list: this.state.list.concat(listProduct.results.docs)})
         }
     }
 
@@ -93,31 +61,42 @@ class HomeScreen extends React.Component {
 
     render() {
         return (
-            <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
+            <>
                 <StatusBar barStyle='light-content' backgroundColor="#6CC8BE"  />
-                <View style={{height: 'auto', width: '100%', position: 'absolute', top: 0, backgroundColor: '#6CC8BE', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', padding: 16, paddingBottom: 5}}>
+                {
+                    Platform.OS == 'ios' && <View style={{backgroundColor:"#6CC8BE", width: '100%', height: 47, position: 'absolute', top: 0, zIndex: 999}}/>
+                }
+
+                <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
+
+                <View style={styles.header}>
                     <TouchableOpacity style={styles.searchBar}>
                         <MaterialCommunityIcons name='magnify' color={'grey'} size={25}/>
                         <Text style={{color: 'grey', fontSize: 14, marginLeft: 10}}>Start exploring...</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.cartButton}>
-                        <View style={{position: 'absolute', width: 16, height: 16, borderRadius: 16/2, backgroundColor: 'red', top: -5, right: -5, zIndex: 999, justifyContent: 'center', alignItems: 'center'}}>
-                            <Text style={{fontFamily: 'Inter-Bold', fontSize: 8}}>13</Text>
+                        <View>
+                            <View style={styles.badge}>
+                                <Text style={{fontFamily: 'Inter-Bold', fontSize: 8, color: '#fff'}}>13</Text>
+                            </View>
+                            <MaterialCommunityIcons name='cart' size={25} color={'#fff'}/>
                         </View>
-                        <MaterialCommunityIcons name='cart' size={25} color={'#fff'}/>
                     </TouchableOpacity>
                 </View>
-                <ScrollView 
-                    style={{ flex: 1, marginTop: 55, paddingTop: 0 }} 
-                    contentContainerStyle={{paddingBottom: 20, paddingLeft: 10}}
-                    onScroll={({nativeEvent}) => { this.isCloseToBottom(nativeEvent) }}
+
+                <ScrollView
+                    contentContainerStyle={{paddingBottom: 20}}
+                    onScroll={({nativeEvent}) => { this.isCloseToBottom(nativeEvent)}}
+                    bounces={false}
+                    alwaysBounceVertical={false}
                     scrollEventThrottle={16}
                 >
-                    <View style={{width: width * 2, position: 'absolute', top: -50, left: 0, height: 150, backgroundColor: '#6CC8BE'}}/>
-                    <View style={{padding: 14, marginTop: 5}}>
-                        <Image source={{uri : "https://cdn.esyms.com/product/product_20210602133904-ff660085-25d6-4d03-a38e-6022a402d3bc.png"}} style={{height: 164, width:'98%', borderRadius:8}} />
+                    <View style={styles.bannerBG}/>
+                    <View style={{paddingTop: 0, paddingHorizontal: 16}}>
+                        <Image source={require('../assets/banner.png')} style={{height: 164, width:'100%', borderRadius:8}} />
                     </View>
-                    <View style={{flexDirection: 'row', flexWrap: 'wrap', paddingHorizontal: 8}}>
+
+                    <View style={styles.list}>
                     {
                         this.state.list?.map((key, index) => {
                             return(
@@ -145,13 +124,24 @@ class HomeScreen extends React.Component {
                         })
                     }  
                     </View>
+
                 </ScrollView>
             </SafeAreaView>
+            </>
         )
     }
 }
  
 const styles = StyleSheet.create({
+    header: {
+        width: '100%', 
+        backgroundColor: '#6CC8BE', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        flexDirection: 'row', 
+        paddingHorizontal: 16, 
+        paddingVertical: 16
+    },
     button: {
         alignItems: 'center',
         backgroundColor: '#fff',
@@ -160,14 +150,23 @@ const styles = StyleSheet.create({
         marginTop: 16,
     },
     searchBar: {
-        flex: 10,
+        width: 300,
         backgroundColor: '#fff',
         flexDirection: 'row',
         alignItems: 'center',
-        paddingVertical: 4,
-        paddingHorizontal: 15,
+        height: 40,
+        paddingHorizontal: 16,
         borderRadius: 50,
         marginRight: 5
+    },
+    bannerBG: {
+        width: '100%', 
+        position: 'absolute', 
+        top: 0, 
+        left: 0, 
+        right: 0,
+        height: 118, 
+        backgroundColor: '#6CC8BE'
     },
     cartButton: {
         flex: 1,
@@ -175,13 +174,10 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     GridViewBlockStyle: {
-        // justifyContent: 'flex-end',
-        // flex:1,
         alignItems: 'flex-start',
         width: 164,
         minHeight: 264,
-        marginVertical: 8,
-        marginHorizontal: 8,
+        marginBottom: 24,
         backgroundColor: '#fff',
         borderRadius: 8
     },
@@ -189,6 +185,25 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
         alignItems: 'flex-start',
         margin: 3.5,
+    },
+    badge: {
+        position: 'absolute', 
+        width: 16, 
+        height: 16, 
+        borderRadius: 16/2, 
+        backgroundColor: 'red', 
+        top: -5, 
+        right: -5, 
+        zIndex: 999, 
+        justifyContent: 'center', 
+        alignItems: 'center'
+    },
+    list: {
+        flexDirection: 'row', 
+        flexWrap: 'wrap', 
+        paddingHorizontal: 16, 
+        paddingTop: 20, 
+        justifyContent: 'space-between'
     },
 });
 

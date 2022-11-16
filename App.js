@@ -3,11 +3,15 @@ import 'react-native-gesture-handler';
 import {Provider, useDispatch, useSelector, createStore, combineReducers} from "react-redux";
 import store from "./src/store";
  
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
- 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+import HomeIcon from "./src/assets/tab_bar_icons/Home.svg";
+import ExploreIcon from "./src/assets/tab_bar_icons/Explore.svg";
+import OrderIcon from "./src/assets/tab_bar_icons/Order.svg";
+import NotificationIcon from "./src/assets/tab_bar_icons/Notification.svg";
+import ProfileIcon from "./src/assets/tab_bar_icons/Profile.svg";
  
 import HomeScreen from './src/screen/HomeScreen';
 import ProfileScreen from './src/screen/ProfileScreen';
@@ -121,11 +125,7 @@ function App() {
             tabBarActiveTintColor: '#33A197',
             tabBarInactiveTintColor: '#8f8f8f',
             tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons
-                name="home"
-                color={color}
-                size={size}
-              />
+              <HomeIcon width={size} height={size} fill={color}/>
             )
           }}
         />
@@ -139,11 +139,7 @@ function App() {
             tabBarActiveTintColor: '#33A197',
             tabBarInactiveTintColor: '#8f8f8f',
             tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons
-                name="magnify"
-                color={color}
-                size={size}
-              />
+              <ExploreIcon width={size} height={size} fill={color}/>
             ),
           }} 
         />
@@ -157,11 +153,7 @@ function App() {
             tabBarActiveTintColor: '#33A197',
             tabBarInactiveTintColor: '#8f8f8f',
             tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons
-                name="receipt"
-                color={color}
-                size={size}
-              />
+              <OrderIcon width={size} height={size} fill={color}/>
             ),
           }} 
         />
@@ -175,11 +167,7 @@ function App() {
             tabBarActiveTintColor: '#33A197',
             tabBarInactiveTintColor: '#8f8f8f',
             tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons
-                name="chat-processing-outline"
-                color={color}
-                size={size}
-              />
+              <NotificationIcon width={size} height={size} fill={color}/>
             ),
           }} 
         />
@@ -193,11 +181,7 @@ function App() {
             tabBarActiveTintColor: '#33A197',
             tabBarInactiveTintColor: '#8f8f8f',
             tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons
-                name="account-circle-outline"
-                color={color}
-                size={size}
-              />
+              <ProfileIcon width={size} height={size} fill={color}/>
             ),
           }} 
         />

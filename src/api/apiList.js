@@ -2,8 +2,6 @@ const apiLink = 'https://staging-backend.esyms-api.com/esyms/website/product/fro
 
 export async function apiGetListProduct(data) {
 
-    console.log(data.page)
-
     let response = await fetch(apiLink + `?name=${data.name}` + `&page=${data.page}`, {
         method: 'GET',
         headers: {
